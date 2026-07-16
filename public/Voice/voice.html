@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Assistant with Icon</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: white; /* simple white background */
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Assistant image */
+    #assistantIcon {
+      width: 160px;
+      height: auto;
+      animation: float 2s infinite alternate ease-in-out;
+      margin-bottom: 20px;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    /* Speech bubble */
+    #messageBox {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 16px;
+      margin-bottom: 12px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      max-width: 280px;
+      text-align: center;
+    }
+
+    /* Button */
+    #btn {
+      padding: 8px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      transition: background 0.3s;
+    }
+    #btn:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Assistant Icon -->
+  <img id="assistantIcon" src="akka.jpg" alt="Assistant Icon">
+
+  <!-- Assistant Widget -->
+  <div id="messageBox">Click the button to start talking 💬</div>
+  <button id="btn">Next Tip ➡</button>
+
+  <script>
+    const messages = [
+      "Hi! I'm your assistant.",
+      "Remember to take breaks while working!",
+      "Stay hydrated 💧",
+      "Keep learning something new every day!"
+    ];
+    let index = 0;
+
+    function speak(text) {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.pitch = 1.2;
+      utter.rate = 1.0;
+      utter.volume = 1;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    }
+
+    document.getElementById("btn").addEventListener("click", () => {
+      index = (index + 1) % messages.length;
+      const msg = messages[index];
+      document.getElementById("messageBox").innerText = msg;
+      speak(msg);
+    });
+  </script>
+</body>
+</html>
