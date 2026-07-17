@@ -45,7 +45,7 @@ const Hero = () => {
             >
               <div className="w-64 h-80 lg:w-80 lg:h-96 rounded-2xl overflow-hidden glass border-2 border-neon-blue/30 shadow-2xl relative">
                 <img 
-                  src="/images/hamsha-photo.jpeg" 
+                  src={`${import.meta.env.BASE_URL}images/hamsha-photo.jpeg`} 
                   alt="Hamsha N - Computer Science Engineering Student"
                   className="w-full h-full object-cover object-center"
                   loading="eager"
