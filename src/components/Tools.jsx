@@ -8,21 +8,22 @@ import {
   Image as ImageIcon, 
   Film, 
   FileSpreadsheet,
-  PenTool
+  PenTool,
+  Sparkles
 } from 'lucide-react'
 
 const Tools = () => {
   const tools = [
-    { name: 'VS Code', icon: Code2, color: 'from-blue-500 to-blue-600' },
-    { name: 'Supabase', icon: Database, color: 'from-green-500 to-green-600' },
-    { name: 'MongoDB', icon: Database, color: 'from-emerald-500 to-emerald-600' },
-    { name: 'GitHub', icon: Github, color: 'from-gray-700 to-gray-800' },
-    { name: 'Android Studio', icon: Smartphone, color: 'from-green-400 to-green-500' },
-    { name: 'Figma', icon: PenTool, color: 'from-purple-500 to-purple-600' },
-    { name: 'Photoshop', icon: ImageIcon, color: 'from-blue-400 to-blue-500' },
-    { name: 'After Effects', icon: Film, color: 'from-purple-400 to-purple-500' },
-    { name: 'Canva', icon: Palette, color: 'from-pink-500 to-pink-600' },
-    { name: 'Microsoft Excel', icon: FileSpreadsheet, color: 'from-green-600 to-green-700' },
+    { name: 'VS Code', icon: Code2, category: 'IDE' },
+    { name: 'MongoDB', icon: Database, category: 'Database' },
+    { name: 'Supabase', icon: Database, category: 'Database' },
+    { name: 'GitHub', icon: Github, category: 'Version Control' },
+    { name: 'Android Studio', icon: Smartphone, category: 'Mobile IDE' },
+    { name: 'Figma', icon: PenTool, category: 'UI/UX Design' },
+    { name: 'Photoshop', icon: ImageIcon, category: 'Design' },
+    { name: 'After Effects', icon: Film, category: 'Motion' },
+    { name: 'Canva', icon: Palette, category: 'Design' },
+    { name: 'Microsoft Excel', icon: FileSpreadsheet, category: 'Data Analysis' },
   ]
 
   const containerVariants = {
@@ -30,62 +31,71 @@ const Tools = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.06,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0 },
+    hidden: { opacity: 0, scale: 0.8 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
         type: 'spring',
-        stiffness: 200,
-        damping: 15,
+        stiffness: 220,
+        damping: 16,
       },
     },
   }
 
   return (
     <section className="py-20 relative">
-      <div className="container mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0, y: -50 }}
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl lg:text-5xl font-bold mb-12 gradient-text text-center"
+          className="text-center mb-16"
         >
-          Tools Used
-        </motion.h2>
+          <span className="editorial-badge mb-3">
+            <Sparkles size={14} className="text-brand-yellow" />
+            Software & Environments
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            TOOLS <span className="gold-gradient-text">USED</span>
+          </h2>
+        </motion.div>
 
+        {/* Tools Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6"
         >
-          {tools.map((tool, index) => {
+          {tools.map((tool) => {
             const Icon = tool.icon
             return (
               <motion.div
                 key={tool.name}
                 variants={itemVariants}
                 whileHover={{ 
-                  scale: 1.1, 
-                  rotate: [0, -5, 5, 0],
-                  y: -10,
+                  scale: 1.06, 
+                  y: -6,
                 }}
-                whileTap={{ scale: 0.95 }}
-                className="glass rounded-xl p-6 border border-white/10 hover:border-neon-blue/50 transition-all cursor-pointer group"
+                className="glass rounded-2xl p-6 border border-white/10 hover:border-brand-yellow/50 transition-all cursor-pointer group bg-dark-card text-center"
               >
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg`}>
-                  <Icon className="text-white" size={32} />
+                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-brand-yellow flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-yellow group-hover:text-black transition-all shadow-md">
+                  <Icon size={28} />
                 </div>
-                <p className="text-center text-sm font-semibold text-gray-300 group-hover:text-neon-blue transition-colors">
+                <h4 className="text-base font-bold text-white group-hover:text-brand-yellow transition-colors mb-1">
                   {tool.name}
+                </h4>
+                <p className="text-[11px] text-gray-400 font-medium uppercase tracking-wider">
+                  {tool.category}
                 </p>
               </motion.div>
             )
@@ -97,4 +107,3 @@ const Tools = () => {
 }
 
 export default Tools
-

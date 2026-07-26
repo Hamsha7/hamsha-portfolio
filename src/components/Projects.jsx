@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { ExternalLink, Video, Image as ImageIcon, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink, Video, Image as ImageIcon, X, ChevronLeft, ChevronRight, Sparkles, Filter } from 'lucide-react'
 
 const Projects = () => {
   const projects = [
@@ -9,75 +9,74 @@ const Projects = () => {
       description: 'An intelligent IoT-based parking management system that optimizes space utilization and provides real-time parking availability.',
       image: `${import.meta.env.BASE_URL}images/smart-parking.jpg`,
       tags: ['IoT', 'Arduino', 'Ultrasonic Sensor'],
+      category: 'IoT & Mobile',
     },
     {
       title: 'Terra View – Agriculture App',
       description: 'A comprehensive mobile application for farmers to monitor crops, weather conditions, and manage agricultural resources efficiently.',
       images: [`${import.meta.env.BASE_URL}images/terra view1.jpeg`, `${import.meta.env.BASE_URL}images/terra view2.jpeg`],
       tags: ['Mobile App', 'Agriculture', 'React Native'],
+      category: 'IoT & Mobile',
     },
     {
       title: 'dineXpress',
       description: 'A canteen management app with IoT integration for seamless payment processing and food ordering.',
-      images: [`${import.meta.env.BASE_URL}images/dinexpress.jpeg`, `${import.meta.env.BASE_URL}images/dinexpress2.jpeg`, `${import.meta.env.BASE_URL}images/dinexpress3.jpeg`, `${import.meta.env.BASE_URL}images/dinexpress4.jpeg`, `${import.meta.env.BASE_URL}images/dinexpress5.jpeg`],
+      images: [
+        `${import.meta.env.BASE_URL}images/dinexpress.jpeg`, 
+        `${import.meta.env.BASE_URL}images/dinexpress2.jpeg`, 
+        `${import.meta.env.BASE_URL}images/dinexpress3.jpeg`, 
+        `${import.meta.env.BASE_URL}images/dinexpress4.jpeg`, 
+        `${import.meta.env.BASE_URL}images/dinexpress5.jpeg`
+      ],
       tags: ['IoT', 'Payment Integration', 'Canteen Management'],
+      category: 'IoT & Mobile',
     },
     {
       title: 'Cyber Security – Live Face Detection',
       description: 'A secure authentication system using real-time face detection technology for enhanced mobile security.',
       image: `${import.meta.env.BASE_URL}images/live-face.jpeg`,
       tags: ['Face Detection', 'Security', 'AI'],
+      category: 'Data & Security',
     },
     {
       title: 'Data Analyst B2B Solution for Company Problems',
       description: 'A data analytics platform designed to solve complex business problems through advanced data processing and visualization.',
       image: `${import.meta.env.BASE_URL}images/b2b.jpeg`,
       tags: ['Data Analytics', 'B2B', 'Business Solutions'],
+      category: 'Data & Security',
     },
     {
       title: 'E3 – Environmental Education with Enhancement (Learning Platform)',
       description: 'An innovative educational platform focused on environmental awareness and sustainability through interactive learning modules.',
       image: `${import.meta.env.BASE_URL}images/e3.png`,
       tags: ['React', 'Firebase', 'Education'],
+      category: 'Web & AI',
     },
     {
       title: 'Voice – Voice Assistant',
       description: 'A local voice assistant project providing speech recognition and voice-driven commands.',
-      link: '/Voice/voice.html',
+      link: `${import.meta.env.BASE_URL}Voice/voice.html`,
       image: `${import.meta.env.BASE_URL}images/image.png`,
       tags: ['Web Speech API', 'Accessibility'],
       animated: true,
+      category: 'Web & AI',
     },
     {
       title: 'Typo Tac Words (Typing Game)',
       description: 'An engaging typing game application that helps users improve their typing speed and accuracy through interactive challenges.',
+      tags: ['JavaScript', 'Gamification', 'Web'],
+      category: 'Web & AI',
     },
   ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
-  }
-
+  const categories = ['All', 'IoT & Mobile', 'Web & AI', 'Data & Security']
+  const [selectedCategory, setSelectedCategory] = useState('All')
   const [openProject, setOpenProject] = useState(null)
   const [imageIndices, setImageIndices] = useState({})
+
+  const filteredProjects = selectedCategory === 'All' 
+    ? projects 
+    : projects.filter(p => p.category === selectedCategory)
 
   const nextImage = (projectTitle, totalImages) => {
     setImageIndices((prev) => ({
@@ -102,151 +101,157 @@ const Projects = () => {
   }, [])
 
   return (
-    <section id="projects" className="py-20 relative">
-      <div className="container mx-auto px-4">
-        <motion.h2
-          initial={{ opacity: 0, y: -50 }}
+    <section id="projects" className="py-24 relative">
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl lg:text-5xl font-bold mb-12 gradient-text text-center"
+          className="text-center mb-12"
         >
-          Projects
-        </motion.h2>
+          <span className="editorial-badge mb-3">
+            <Sparkles size={14} className="text-brand-yellow" />
+            Selected Showcase
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
+            FEATURED <span className="gold-gradient-text">PROJECTS</span>
+          </h2>
+        </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+        {/* Category Filter Tabs */}
+        <div className="flex justify-center gap-2 sm:gap-3 flex-wrap mb-16">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 ${
+                selectedCategory === cat
+                  ? 'bg-gradient-to-r from-brand-yellow to-brand-amber text-black shadow-amber-glow scale-105'
+                  : 'glass text-gray-300 hover:text-brand-yellow border-white/10'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Projects Grid */}
+        <motion.div 
+          layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {projects.map((project, index) => {
-            const currentImageIndex = imageIndices[project.title] || 0
-            const displayImage = project.images ? project.images[currentImageIndex] : project.image
-            
-            return (
-            <motion.div
-              key={project.title}
-              variants={cardVariants}
-              whileHover={{ y: -12, scale: 1.03 }}
-              className="glass rounded-2xl overflow-hidden border border-white/10 hover:border-neon-blue/40 transition-all duration-300 group shadow-lg hover:shadow-neon-blue/20"
-            >
-              {project.images ? (
-                <div className="relative h-48 bg-black/5 flex items-center justify-center overflow-hidden group/gallery">
-                  <img 
-                    src={project.images[currentImageIndex]} 
-                    alt={`${project.title}`}
-                    className="w-full h-full object-contain transition-all duration-300"
-                    loading="lazy" 
-                    decoding="async" 
-                  />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      prevImage(project.title, project.images.length)
-                    }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:bg-black/70 z-10 cursor-pointer"
-                    aria-label="Previous image"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      nextImage(project.title, project.images.length)
-                    }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:bg-black/70 z-10 cursor-pointer"
-                    aria-label="Next image"
-                  >
-                    <ChevronRight size={20} />
-                  </button>
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                    {project.images.map((_, i) => (
-                      <div
-                        key={i}
-                        className={`w-2 h-2 rounded-full transition-all ${
-                          i === currentImageIndex ? 'bg-neon-blue w-4' : 'bg-white/50'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="project-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-sm font-semibold">{project.title}</span>
-                    <div className="flex gap-2">
-                      {(project.tags || []).map((t) => (
-                        <span key={t} className="tag-pill text-xs">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : project.image ? (
-                project.animated ? (
-                  <div className="relative h-48 bg-black/5 flex items-center justify-center overflow-hidden">
-                    <img src={project.image} alt={project.title} className="assistant-float" loading="lazy" decoding="async" />
-                    <div className="project-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-sm font-semibold">{project.title}</span>
-                      <div className="flex gap-2">
-                        {(project.tags || []).map((t) => (
-                          <span key={t} className="tag-pill text-xs">{t}</span>
+          <AnimatePresence>
+            {filteredProjects.map((project) => {
+              const currentImageIndex = imageIndices[project.title] || 0
+              
+              return (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
+                  key={project.title}
+                  whileHover={{ y: -8 }}
+                  className="glass rounded-3xl overflow-hidden border border-white/10 hover:border-brand-yellow/50 transition-all duration-300 group shadow-xl bg-dark-card flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Media Header */}
+                    {project.images ? (
+                      <div className="relative h-56 bg-black/40 flex items-center justify-center overflow-hidden group/gallery border-b border-white/10">
+                        <img 
+                          src={project.images[currentImageIndex]} 
+                          alt={project.title}
+                          className="w-full h-full object-contain p-2 transition-all duration-300"
+                          loading="lazy" 
+                        />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            prevImage(project.title, project.images.length)
+                          }}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/70 text-brand-yellow rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:scale-110 z-10"
+                          aria-label="Previous image"
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            nextImage(project.title, project.images.length)
+                          }}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/70 text-brand-yellow rounded-full opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:scale-110 z-10"
+                          aria-label="Next image"
+                        >
+                          <ChevronRight size={18} />
+                        </button>
+                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                          {project.images.map((_, i) => (
+                            <div
+                              key={i}
+                              className={`h-1.5 rounded-full transition-all ${
+                                i === currentImageIndex ? 'bg-brand-yellow w-5' : 'bg-white/40 w-1.5'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ) : project.image ? (
+                      <div className="relative h-56 bg-black/40 flex items-center justify-center overflow-hidden border-b border-white/10">
+                        <img 
+                          src={project.image} 
+                          alt={project.title} 
+                          className={`w-full h-full object-contain p-2 ${project.animated ? 'assistant-float' : ''}`}
+                          loading="lazy" 
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative h-56 bg-gradient-to-br from-amber-500/10 to-yellow-500/5 flex items-center justify-center border-b border-white/10">
+                        <ImageIcon className="text-brand-yellow/40" size={48} />
+                      </div>
+                    )}
+
+                    {/* Card Body */}
+                    <div className="p-6 sm:p-8">
+                      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-brand-yellow transition-colors leading-snug">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                        {project.description}
+                      </p>
+                      
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {(project.tags || []).map((tag) => (
+                          <span key={tag} className="tag-pill text-[11px]">
+                            {tag}
+                          </span>
                         ))}
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div className="relative h-48 bg-black/5 flex items-center justify-center overflow-hidden">
-                    <img src={project.image} alt={project.title} className="w-full h-full object-contain" loading="lazy" decoding="async" />
-                    <div className="project-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-sm font-semibold">{project.title}</span>
-                      <div className="flex gap-2">
-                        {(project.tags || []).map((t) => (
-                          <span key={t} className="tag-pill text-xs">{t}</span>
-                        ))}
-                      </div>
+
+                  {/* Card Action Link */}
+                  {project.link && (
+                    <div className="px-6 pb-6 pt-0 sm:px-8 sm:pb-8">
+                      <button
+                        onClick={() => setOpenProject({ src: project.link, title: project.title })}
+                        className="w-full py-3 px-4 bg-gradient-to-r from-brand-yellow to-brand-amber text-black rounded-xl font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-amber-glow transition-all"
+                      >
+                        <ExternalLink size={16} />
+                        Launch Project
+                      </button>
                     </div>
-                  </div>
-                )
-              ) : (
-                <>
-                  {/* Image Placeholder */}
-                  <div className="relative h-48 bg-gradient-to-br from-neon-blue/20 to-neon-purple/20 flex items-center justify-center overflow-hidden">
-                    <ImageIcon className="text-gray-500" size={48} />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                  </div>
-
-                  {/* Video Placeholder */}
-                  <div className="relative h-32 bg-gradient-to-br from-neon-purple/20 to-neon-pink/20 flex items-center justify-center">
-                    <Video className="text-gray-500" size={40} />
-                  </div>
-                </>
-              )}
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:text-neon-blue transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                {project.link ? (
-                  <button
-                    onClick={() => setOpenProject({ src: project.link, title: project.title })}
-                    className="w-full inline-flex py-2 px-4 bg-gradient-to-r from-neon-blue to-neon-purple rounded-lg font-semibold text-sm text-white items-center justify-center gap-2 hover:brightness-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-neon-blue/40"
-                    aria-haspopup="dialog"
-                    aria-controls="project-modal"
-                  >
-                    <ExternalLink size={16} />
-                    Open Project
-                  </button>
-                ) : null}
-              </div>
-            </motion.div>
-            )
-          })}
+                  )}
+                </motion.div>
+              )
+            })}
+          </AnimatePresence>
         </motion.div>
       </div>
 
-      {/* Project modal */}
+      {/* Project Preview Iframe Modal */}
       {openProject && (
         <div
           id="project-modal"
@@ -256,18 +261,22 @@ const Projects = () => {
           className="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4"
           onClick={(e) => { if (e.target === e.currentTarget) setOpenProject(null) }}
         >
-          <div className="modal-content w-full max-w-4xl h-[80vh] bg-black rounded-lg overflow-hidden shadow-xl relative">
-            <button
-              onClick={() => setOpenProject(null)}
-              className="modal-close absolute top-3 right-3 z-60 p-2 rounded-md bg-black/60 text-white hover:bg-black/80 focus:outline-none focus-visible:ring-4 focus-visible:ring-neon-blue/40"
-              aria-label="Close project"
-            >
-              <X size={18} />
-            </button>
+          <div className="modal-content w-full max-w-5xl h-[85vh] bg-dark-bg border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl relative flex flex-col">
+            {/* Modal Top Bar */}
+            <div className="px-6 py-4 bg-dark-surface border-b border-white/10 flex justify-between items-center">
+              <span className="text-sm font-bold text-brand-yellow">{openProject.title}</span>
+              <button
+                onClick={() => setOpenProject(null)}
+                className="p-2 rounded-xl bg-white/5 text-gray-300 hover:text-brand-yellow hover:bg-white/10 transition-all"
+                aria-label="Close project modal"
+              >
+                <X size={20} />
+              </button>
+            </div>
             <iframe
               title={openProject.title}
               src={openProject.src}
-              className="w-full h-full border-0"
+              className="w-full flex-grow border-0"
               loading="lazy"
             />
           </div>
@@ -278,4 +287,3 @@ const Projects = () => {
 }
 
 export default Projects
-

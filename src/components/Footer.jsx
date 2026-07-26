@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Instagram } from 'lucide-react'
+import { Github, Linkedin, Instagram, Sparkles } from 'lucide-react'
 
 const Footer = () => {
   const socials = [
@@ -9,26 +9,34 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="py-16 border-t border-white/10 relative bg-gradient-to-t from-neon-blue/5 to-transparent">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          {/* Copyright */}
+    <footer className="py-14 border-t border-white/10 relative bg-dark-bg">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          {/* Brand Info */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-gray-400 text-center md:text-left"
+            className="text-center md:text-left"
           >
-            <p className="text-lg font-semibold gradient-text mb-2">Hamsha N</p>
-            <p className="text-sm">© {new Date().getFullYear()} All rights reserved.</p>
+            <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+              <span className="text-xl font-bold text-white tracking-tight">HAMSHA N</span>
+              <Sparkles size={16} className="text-brand-yellow" />
+            </div>
+            <p className="text-xs text-gray-400 font-medium">
+              B.E Computer Science Engineering (IoT) • Frontend Designer & IoT Engineer
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              © {new Date().getFullYear()} Hamsha N. All rights reserved.
+            </p>
           </motion.div>
 
-          {/* Social Icons */}
+          {/* Quick Social Icons */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex gap-6"
+            className="flex gap-4"
           >
             {socials.map((social) => {
               const Icon = social.icon
@@ -38,15 +46,12 @@ const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ 
-                    scale: 1.25, 
-                    rotate: [0, -10, 10, 0],
-                    y: -8,
-                  }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-12 h-12 glass rounded-full flex items-center justify-center hover:text-neon-blue transition-all duration-300 border border-white/10 hover:border-neon-blue/50 hover:shadow-lg hover:shadow-neon-blue/30"
+                  whileHover={{ scale: 1.15, y: -4 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-11 h-11 glass rounded-xl flex items-center justify-center text-gray-300 hover:text-brand-yellow transition-all duration-300 border border-white/10 hover:border-brand-yellow/50 hover:shadow-amber-glow"
+                  aria-label={social.name}
                 >
-                  <Icon size={20} />
+                  <Icon size={18} />
                 </motion.a>
               )
             })}
@@ -58,4 +63,3 @@ const Footer = () => {
 }
 
 export default Footer
-

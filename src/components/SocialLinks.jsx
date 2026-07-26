@@ -7,22 +7,16 @@ const SocialLinks = () => {
       name: 'GitHub',
       icon: Github,
       url: 'https://github.com/Hamsha7',
-      color: 'hover:text-gray-300',
-      glowColor: 'hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]',
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
       url: 'https://www.linkedin.com/in/hamsha-n-93a2972a5',
-      color: 'hover:text-blue-400',
-      glowColor: 'hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]',
     },
     {
       name: 'Instagram',
       icon: Instagram,
       url: 'https://www.instagram.com/hamsha_26/',
-      color: 'hover:text-pink-400',
-      glowColor: 'hover:shadow-[0_0_20px_rgba(236,72,153,0.5)]',
     },
   ]
 
@@ -37,27 +31,27 @@ const SocialLinks = () => {
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0 },
+    hidden: { opacity: 0, scale: 0.5 },
     visible: {
       opacity: 1,
       scale: 1,
       transition: {
         type: 'spring',
-        stiffness: 200,
-        damping: 10,
+        stiffness: 220,
+        damping: 12,
       },
     },
   }
 
   return (
-    <section className="py-20 relative">
-      <div className="container mx-auto px-4">
+    <section className="py-12 relative z-10">
+      <div className="container mx-auto px-6">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          className="flex justify-center gap-8"
+          viewport={{ once: true, margin: '-50px' }}
+          className="flex justify-center items-center gap-6"
         >
           {socials.map((social) => {
             const Icon = social.icon
@@ -69,14 +63,14 @@ const SocialLinks = () => {
                 rel="noopener noreferrer"
                 variants={itemVariants}
                 whileHover={{ 
-                  scale: 1.2, 
-                  rotate: [0, -10, 10, -10, 0],
-                  y: -10,
+                  scale: 1.15, 
+                  y: -6,
                 }}
-                whileTap={{ scale: 0.9 }}
-                className={`w-16 h-16 glass rounded-full flex items-center justify-center ${social.color} transition-all duration-300 ${social.glowColor} border border-white/10 hover:border-white/30`}
+                whileTap={{ scale: 0.95 }}
+                className="w-14 h-14 glass rounded-2xl flex items-center justify-center text-gray-300 hover:text-brand-yellow transition-all duration-300 border border-white/10 hover:border-brand-yellow/50 shadow-lg hover:shadow-amber-glow"
+                aria-label={social.name}
               >
-                <Icon size={28} />
+                <Icon size={24} />
               </motion.a>
             )
           })}
@@ -87,4 +81,3 @@ const SocialLinks = () => {
 }
 
 export default SocialLinks
-
