@@ -2,19 +2,27 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink, Video, Image as ImageIcon, X, ChevronLeft, ChevronRight, Sparkles, Filter } from 'lucide-react'
 
+const getAssetUrl = (path) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  return `${base}${cleanPath}`
+}
+
 const Projects = () => {
   const projects = [
     {
       title: 'Smart Car Parking System',
       description: 'An intelligent IoT-based parking management system that optimizes space utilization and provides real-time parking availability.',
-      image: `${import.meta.env.BASE_URL}images/smart-parking.jpg`,
+      image: getAssetUrl('images/smart-parking.jpg'),
       tags: ['IoT', 'Arduino', 'Ultrasonic Sensor'],
       category: 'IoT & Mobile',
     },
     {
       title: 'Terra View – Agriculture App',
       description: 'A comprehensive mobile application for farmers to monitor crops, weather conditions, and manage agricultural resources efficiently.',
-      images: [`${import.meta.env.BASE_URL}images/terra view1.jpeg`, `${import.meta.env.BASE_URL}images/terra view2.jpeg`],
+      images: [getAssetUrl('images/terra view1.jpeg'), getAssetUrl('images/terra view2.jpeg')],
       tags: ['Mobile App', 'Agriculture', 'React Native'],
       category: 'IoT & Mobile',
     },
@@ -22,11 +30,11 @@ const Projects = () => {
       title: 'dineXpress',
       description: 'A canteen management app with IoT integration for seamless payment processing and food ordering.',
       images: [
-        `${import.meta.env.BASE_URL}images/dinexpress.jpeg`, 
-        `${import.meta.env.BASE_URL}images/dinexpress2.jpeg`, 
-        `${import.meta.env.BASE_URL}images/dinexpress3.jpeg`, 
-        `${import.meta.env.BASE_URL}images/dinexpress4.jpeg`, 
-        `${import.meta.env.BASE_URL}images/dinexpress5.jpeg`
+        getAssetUrl('images/dinexpress.jpeg'), 
+        getAssetUrl('images/dinexpress2.jpeg'), 
+        getAssetUrl('images/dinexpress3.jpeg'), 
+        getAssetUrl('images/dinexpress4.jpeg'), 
+        getAssetUrl('images/dinexpress5.jpeg')
       ],
       tags: ['IoT', 'Payment Integration', 'Canteen Management'],
       category: 'IoT & Mobile',
@@ -34,29 +42,29 @@ const Projects = () => {
     {
       title: 'Cyber Security – Live Face Detection',
       description: 'A secure authentication system using real-time face detection technology for enhanced mobile security.',
-      image: `${import.meta.env.BASE_URL}images/live-face.jpeg`,
+      image: getAssetUrl('images/live-face.jpeg'),
       tags: ['Face Detection', 'Security', 'AI'],
       category: 'Data & Security',
     },
     {
       title: 'Data Analyst B2B Solution for Company Problems',
       description: 'A data analytics platform designed to solve complex business problems through advanced data processing and visualization.',
-      image: `${import.meta.env.BASE_URL}images/b2b.jpeg`,
+      image: getAssetUrl('images/b2b.jpeg'),
       tags: ['Data Analytics', 'B2B', 'Business Solutions'],
       category: 'Data & Security',
     },
     {
       title: 'E3 – Environmental Education with Enhancement (Learning Platform)',
       description: 'An innovative educational platform focused on environmental awareness and sustainability through interactive learning modules.',
-      image: `${import.meta.env.BASE_URL}images/e3.png`,
+      image: getAssetUrl('images/e3.png'),
       tags: ['React', 'Firebase', 'Education'],
       category: 'Web & AI',
     },
     {
       title: 'Voice – Voice Assistant',
       description: 'A local voice assistant project providing speech recognition and voice-driven commands.',
-      link: `${import.meta.env.BASE_URL}Voice/voice.html`,
-      image: `${import.meta.env.BASE_URL}images/image.png`,
+      link: getAssetUrl('Voice/voice.html'),
+      image: getAssetUrl('images/image.png'),
       tags: ['Web Speech API', 'Accessibility'],
       animated: true,
       category: 'Web & AI',
